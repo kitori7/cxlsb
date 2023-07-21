@@ -1,0 +1,73 @@
+{
+    "bsonType": "object",
+    "required": [],
+    "permission": {
+        "read": true,
+        "create": true,
+        "update": true,
+        "delete": true
+    },
+    "properties": {
+        "_id": {
+            "description": "ID，系统自动生成"
+        },
+        "price": {
+            "bsonType": "int",
+            "description": "合同价格(单位是分)",
+            "label": "合同价格",
+            "order": 10
+        },
+        "date": {
+            "bsonType": "timestamp",
+            "description": "上传日期",
+            "label": "上传日期"
+        },
+        "file_download_url": {
+            "bsonType": "file",
+            "description": "合同文档",
+            "label": "合同文档",
+            "fileMediaType": "all",
+            "fileExtName": "doc,docx"
+        },
+        "name": {
+            "bsonType": "string",
+            "description": "合同名称",
+            "label": "合同名称",
+            "order": 0
+        },
+        "buy_count": {
+            "bsonType": "int",
+            "description": "购买次数"
+        },
+        "initial_count": {
+            "bsonType": "int",
+            "description": "起始下载次数"
+        },
+        "type": {
+            "bsonType": "int",
+            "description": "合同类型",
+            "label": "合同类型",
+            "order": 20,
+            "enum": [{
+
+                    "text": "常用合同",
+                    "value": 1
+                },
+
+                {
+                    "text": "高级合同",
+                    "value": 2
+                }
+            ]
+        },
+        "image_urls": {
+            "bsonType": "array",
+            "order": 30,
+            "arrayType": "file",
+            "label": "合同截图",
+            "multiple": true,
+            "fileMediaType": "image",
+            "fileExtName": "jpg,png,jpeg"
+        }
+    }
+}

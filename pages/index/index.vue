@@ -5,21 +5,17 @@
 			<navigator url="../detail/detail">
 				<u-button>文章详情</u-button>
 			</navigator>
-			<navigator url="../contractList/contractList">
+			<navigator url="../honestySchool/honestySchool">
 				<u-button>文章列表</u-button>
 			</navigator>
-		<navigator url="../honestySchool/honestySchool">
-			<u-button>博士合同</u-button>
-		</navigator>
+			<navigator url="../contractList/contractList">
+				<u-button>博士合同</u-button>
+			</navigator>
 		</view>
 	</view>
 </template>
 
 <script setup>
-	import { ref } from "vue"
-	function change (){
-		console.log('好家伙');
-	}
 </script>
 
 <style>

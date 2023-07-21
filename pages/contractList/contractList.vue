@@ -1,11 +1,11 @@
 <template>
 	<view class="contract-list">
 		<view class="menu">
-			<u-collapse accordion :border="false">
-				<u-collapse-item title="免费合同" name="Docs guide" :is-link="false">
-					<text class="u-collapse-content">免费</text>
-				</u-collapse-item>
-			</u-collapse>
+			<view class="tab-content">
+				<text @click='handleChange(1)'>常用合同</text>
+				<text  @click='handleChange(2)'>高级合同</text>
+			</view>
+
 			<div class="qr-content">
 				<view class="img" src="" alt=""></view>
 				<text>客服电话：</text>
@@ -16,13 +16,9 @@
 		<view class="content">
 			<view class="img"></view>
 			<div class="item-content">
-				<div class="item">
-					<div class="title">借条</div>
-					<div class="price"><span>价格：￥0.00</span></div>
-				</div>
-				<div class="item">
-					<div class="title">借条</div>
-					<div class="price"><span>价格：￥0.00</span></div>
+				<div class="item" v-for="item in contractList" :key="item._id">
+					<div class="title">{{item.name}}</div>
+					<div class="price"><span>价格：￥{{(item.price / 100).toFixed(2)}}</span></div>
 				</div>
 			</div>
 		</view>
@@ -30,6 +26,24 @@
 </template>
 
 <script lang="ts" setup>
+	import { onMounted, ref } from "vue"
+	const db = uniCloud.database()
+
+	//获取数据
+	const contractList = ref()
+	const type = ref<number>(1)
+	onMounted(()=>{
+			db.collection('cxlsb-u-contract').get().then((res) => {
+				contractList.value = res.result.data
+			})
+	})
+//tab点击事件
+	function handleChange(index:number) {
+		type.value = index
+		db.collection('cxlsb-u-contract').where(`type==${type.value}`).get().then((res) => {
+			contractList.value = res.result.data
+		})
+	}
 </script>
 
 <style lang="scss">
@@ -39,12 +53,23 @@
 
 		.menu {
 			width: 230rpx;
-			height: calc(100vh - 88rpx);
+			height: 100vh ;
 			display: flex;
 			flex-direction: column;
 			justify-content: space-between;
 			background-color: #fff;
-
+			.tab-content{
+				display: flex;
+				flex-direction: column;
+				text{
+					text-align: center;
+					height: 100rpx;
+					line-height: 100rpx;
+					&:active{
+						background-color: #e3e3e3;
+					}
+				}
+			}
 			.qr-content {
 				display: flex;
 				flex-direction: column;
@@ -64,23 +89,31 @@
 			flex: 1;
 			margin-left: 15rpx;
 			background-color: #fff;
-			.img{
+
+			.img {
 				box-sizing: border-box;
-				padding: 10rpx;
-				width: 100%;
+				margin: 10rpx;
+				width: calc(100% - 20rpx);
 				height: 150rpx;
 				background-color: #666;
 			}
-			.item-content{
+
+			.item-content {
 				padding: 20rpx;
-				.item{
+
+				.item {
+					
 					display: flex;
 					flex-direction: column;
 					justify-content: center;
 					line-height: 60rpx;
 					height: 150rpx;
 					border-bottom: 2rpx solid #dddddd;
-					.price{
+					.title{
+						font-size: 30rpx;
+					}
+					.price {
+						font-size: 28rpx;
 						color: #b8b8b8;
 					}
 				}
