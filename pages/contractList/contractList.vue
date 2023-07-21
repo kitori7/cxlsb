@@ -2,8 +2,8 @@
 	<view class="contract-list">
 		<view class="menu">
 			<view class="tab-content">
-				<text @click='handleChange(1)'>常用合同</text>
-				<text  @click='handleChange(2)'>高级合同</text>
+				<text :class="{'active': type ===1}" @click='handleChange(1)'>常用合同</text>
+				<text :class="{'active': type ===2}" @click='handleChange(2)'>高级合同</text>
 			</view>
 
 			<div class="qr-content">
@@ -31,14 +31,14 @@
 
 	//获取数据
 	const contractList = ref()
-	const type = ref<number>(1)
-	onMounted(()=>{
-			db.collection('cxlsb-u-contract').get().then((res) => {
-				contractList.value = res.result.data
-			})
+	const type = ref<number>(0)
+	onMounted(() => {
+		db.collection('cxlsb-u-contract').get().then((res) => {
+			contractList.value = res.result.data
+		})
 	})
-//tab点击事件
-	function handleChange(index:number) {
+	//tab点击事件
+	function handleChange(index : number) {
 		type.value = index
 		db.collection('cxlsb-u-contract').where(`type==${type.value}`).get().then((res) => {
 			contractList.value = res.result.data
@@ -53,23 +53,28 @@
 
 		.menu {
 			width: 230rpx;
-			height: 100vh ;
+			height: 100vh;
 			display: flex;
 			flex-direction: column;
 			justify-content: space-between;
 			background-color: #fff;
-			.tab-content{
+
+			.tab-content {
 				display: flex;
 				flex-direction: column;
-				text{
+
+				text {
 					text-align: center;
 					height: 100rpx;
 					line-height: 100rpx;
-					&:active{
-						background-color: #e3e3e3;
+
+					&.active {
+						background-color: #f5f5f5;
 					}
+					
 				}
 			}
+
 			.qr-content {
 				display: flex;
 				flex-direction: column;
@@ -102,16 +107,18 @@
 				padding: 20rpx;
 
 				.item {
-					
+
 					display: flex;
 					flex-direction: column;
 					justify-content: center;
 					line-height: 60rpx;
 					height: 150rpx;
 					border-bottom: 2rpx solid #dddddd;
-					.title{
+
+					.title {
 						font-size: 30rpx;
 					}
+
 					.price {
 						font-size: 28rpx;
 						color: #b8b8b8;
