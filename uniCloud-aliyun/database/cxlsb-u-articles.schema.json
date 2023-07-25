@@ -18,20 +18,6 @@
 			"label": "标题",
 			"trim": "both"
 		},
-		"content": {
-			"bsonType": "string",
-			"title": "文章内容",
-			"description": "文章内容",
-			"label": "文章内容",
-			"trim": "right",
-			"component": {
-				"name": "uni-easyinput",
-				"props": {
-					"type": "textarea",
-					"autoHeight": true
-				}
-			}
-		},
 		"article_status": {
 			"bsonType": "int",
 			"title": "文章状态",
@@ -51,7 +37,22 @@
 			"description": "缩略图地址",
 			"label": "封面大图",
 			"fileMediaType": "image",
-			"fileExtName": "jpg,png"
+			"fileExtName": "jpg,png,jpeg"
+		},
+		"content": {
+			"bsonType": "string",
+			"title": "文章内容",
+			"description": "文章内容",
+			"label": "文章内容",
+			"trim": "right",
+			"component": {
+				"name": "uni-easyinput",
+				"props": {
+					"type": "textarea",
+					":autoHeight": true,
+					":maxlength":-1
+				}
+			}
 		},
 		"publish_date": {
 			"bsonType": "timestamp",
@@ -60,6 +61,6 @@
 			"forceDefaultValue": {
 				"$env": "now"
 			}
-		},
+		}
 	}
 }

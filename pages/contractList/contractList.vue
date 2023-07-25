@@ -35,11 +35,10 @@
 		handleChange(1)
 	})
 	//tab点击事件
-	function handleChange(index : number) {
+	async function  handleChange (index : number) {
 		type.value = index
-		db.collection('cxlsb-u-contract').where(`type==${type.value}`).get().then((res) => {
-			contractList.value = res.result.data
-		})
+		const res = await db.collection('cxlsb-u-contract').where(`type==${type.value}`).get()
+		contractList.value = res.result.data
 	}
 </script>
 
@@ -62,7 +61,6 @@
 			.tab-content {
 				display: flex;
 				flex-direction: column;
-
 				text {
 					text-align: center;
 					height: 100rpx;
@@ -94,7 +92,11 @@
 			flex: 1;
 			margin-left: 15rpx;
 			background-color: #fff;
-
+			height: calc(100vh - 90rpx);
+			/* #ifdef MP-WEIXIN */
+			height: 100vh;
+			/* #endif */
+			overflow: auto;
 			.img {
 				box-sizing: border-box;
 				margin: 10rpx;
