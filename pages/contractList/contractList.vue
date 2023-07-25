@@ -28,14 +28,11 @@
 <script lang="ts" setup>
 	import { onMounted, ref } from "vue"
 	const db = uniCloud.database()
-
 	//获取数据
 	const contractList = ref()
-	const type = ref<number>(0)
+	const type = ref<number>(1)
 	onMounted(() => {
-		db.collection('cxlsb-u-contract').get().then((res) => {
-			contractList.value = res.result.data
-		})
+		handleChange(1)
 	})
 	//tab点击事件
 	function handleChange(index : number) {
@@ -53,7 +50,10 @@
 
 		.menu {
 			width: 230rpx;
+			height: calc(100vh - 90rpx);
+			/* #ifdef MP-WEIXIN */
 			height: 100vh;
+			/* #endif */
 			display: flex;
 			flex-direction: column;
 			justify-content: space-between;
@@ -71,7 +71,7 @@
 					&.active {
 						background-color: #f5f5f5;
 					}
-					
+
 				}
 			}
 

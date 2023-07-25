@@ -1,22 +1,20 @@
 <template>
 	<view class="detail">
 		<template v-if="!isEmpty && articlesContet">
-			<image class="img" :src="articlesContet.avatar"></image>
+			<image class="img" :src="articlesContet.avatar.url" mode="aspectFill"></image>
 			<view class="content">
 				<view class="title">
 					{{articlesContet.title}}
 				</view>
 				<view class="description">
-					<view class="icons"><u-icon name="account" size="21" color="#a3a3a3"></u-icon><text>发布者：xxx</text>
-					</view>
 					<view class="icons"><u-icon name="calendar" size="21"
-							color="#a3a3a3"></u-icon><text>发布日期：{{dayjs(articlesContet.publish_date*1000).format("YYYY-MM-DD HH:mm") }}</text>
+							color="#a3a3a3"></u-icon><text>发布日期：{{dayjs(articlesContet.publish_date).format("MM-DD HH:mm") }}</text>
 					</view>
 				</view>
 				<text>{{articlesContet.content}}</text>
 			</view>
 		</template>
-		<u-empty text="" mode="data" v-else></u-empty>
+		<u-empty text="" mode="data" v-else-if="isEmpty"></u-empty>
 
 	</view>
 </template>
@@ -31,23 +29,29 @@
 		_id : string;
 		title : string
 		content : string
-		avatar : string
+		avatar : {url:string}
 		publish_date : number
+		last_modify_date:number
 		excerpt : string
 	}
 	//获取文章内容
 	const articlesId = ref<string>()
 	const articlesContet = ref<IContent>()
-	const isEmpty = ref<boolean>(true)
+	const isEmpty = ref<boolean>(false)
 	onLoad(async ({ _id }) => {
-		console.log(_id);
 		if (_id === undefined) {
 			isEmpty.value = true
 		} else {
-			isEmpty.value = false
 			articlesId.value = _id
+			uni.showLoading({
+				mask: true,
+				title: '加载中'
+			})
 			const res = await db.collection('cxlsb-u-articles').doc(_id).get()
 			articlesContet.value = res.result.data[0]
+			console.log(res);
+			uni.hideLoading()
+			isEmpty.value = false
 		}
 
 	})

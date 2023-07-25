@@ -5,14 +5,14 @@
  				<div class="item" v-for="item in articles" :key="item._id" @click="handleNavigateTo(item._id)">
  					<div class="content">
  						<view class="img">
- 							<image :src="item.avatar"></image>
+ 							<image :src="item.avatar.url" mode="aspectFill"></image>
  						</view>
  						<div class="introduce-content">
  							<view class="title">{{item.title}}</view>
- 							<view class="p">{{item.excerpt}}</view>
+ 							<view class="p">{{item.content}}</view>
  						</div>
  					</div>
- 					<div class="date">{{dayjs(item.publish_date*1000).format("YYYY-MM-DD HH:mm") }}</div>
+ 					<div class="date">{{dayjs(item.publish_date).format("YYYY-MM-DD HH:mm") }}</div>
  				</div>
  			</u-list-item>
  		</u-list>
@@ -26,7 +26,7 @@
 	//拉取数据
 	const articles = ref()
 	onMounted(async () => {
-		const data = await db.collection('cxlsb-u-articles').field('title,avatar,publish_date,excerpt').get()
+		const data = await db.collection('cxlsb-u-articles').where("article_status==1").get()
 		articles.value = data.result.data
 	})
 
